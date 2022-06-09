@@ -7,7 +7,7 @@ exports.getAllPosts = (req, res, next) => {
     var sql = `SELECT user_id, user_name, user_firstname, user_pp, post_id, post_id_author, post_date_created, post_description, post_likes, post_image
             FROM posts 
             INNER JOIN users 
-            ON posts.post_id_author = users.user_id 
+            ON posts.post_id_author = users.user_id
             ORDER BY posts.post_date_created DESC`;
     dbcon.query(sql, function (err, result) {
         if (err) res.status(400).json({ err });
