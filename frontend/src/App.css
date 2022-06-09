@@ -1,0 +1,32 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.bottom-right-btn {
+    position: fixed !important;
+    bottom: 80px;
+    right: 24px;
+}
+
+#footer {
+height: 6vh;
+margin-bottom: 1.5em;
+padding: 0 50px 0;
+width:100%;
+}
+
+.desc {
+    width: 90%;
+    margin: auto;
+}
+
+.logo {
+    height: 30px;
+}
+
+.postimage {
+    width: 75%;
+    margin: auto;
+}
