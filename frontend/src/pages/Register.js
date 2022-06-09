@@ -108,12 +108,16 @@ export default function Register() {
                   name="email"
                   autoComplete="email"
                   {...register('email', {
-                    required: 'true',
+                    required: 'true', pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   })}
                 />
                 {errors.email?.type === 'required' && 
                 <Typography variant="overline" display="block" gutterBottom color='primary'>
                   Veuillez remplir ce champ.
+                </Typography>}
+                {errors.email?.type === 'pattern' && 
+                <Typography variant="overline" display="block" gutterBottom color='primary'>
+                  L'adresse email n'est pas au bon format.
                 </Typography>}
               </Grid>
               <Grid item xs={12}>

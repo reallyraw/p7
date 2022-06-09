@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {toastError, toastSuccess} from '../constantes/toastConfig';
 import crud from '../services/crud';
+import {useNavigate} from 'react-router-dom';
 
 
 export default function CreatePost() {
@@ -25,10 +26,12 @@ export default function CreatePost() {
     formState: { errors },
   } = methods;
 
+  let navigate = useNavigate();
+
 
   const onSubmit = async (data) => {
     try {
-      if (data.text | data.image[0]){       
+      if (data){    
         const fd = new FormData();
         if (data.text) {
           fd.append('text', data.text);
@@ -36,8 +39,10 @@ export default function CreatePost() {
         if (data.image) {
           fd.append("image", data.image[0], data.image[0].name);
         }    
+        console.log(fd);
         const response = await crud.postStuff('post', fd);
         toastSuccess(response.message);
+        navigate('/');
       }
     } catch (error) {
       const errorMessage = error.response.data.error;

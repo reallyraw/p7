@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useForm } from 'react-hook-form';
 import crud from '../services/crud';
-import {toastError, toastSuccess} from '../constantes/toastConfig'
+import {toastError, toastSuccess} from '../constantes/toastConfig';
 
 export default function Profile() {
   const methods = useForm({
@@ -29,6 +29,7 @@ export default function Profile() {
       fd.append("image", data.image[0], data.image[0].name);
       const response = await crud.updateStuff('user/profile', fd);
       toastSuccess(response.message);
+      window.location.reload();
     } catch (error) {
       const errorMessage = error.response.data.error;
       toastError(errorMessage);

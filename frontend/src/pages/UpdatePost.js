@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {toastError, toastSuccess} from '../constantes/toastConfig';
 import crud from '../services/crud';
+import {useNavigate} from 'react-router-dom';
 
 
 export default function CreatePost() {
@@ -40,6 +41,9 @@ export default function CreatePost() {
   fetchPost();
   }, [])
 
+  
+  let navigate = useNavigate();
+
 
   const methods = useForm({
     mode: 'onTouched',
@@ -57,6 +61,7 @@ export default function CreatePost() {
       fd.append("image", data.image[0], data.image[0].name);
       const response = await crud.updateStuff(`post/${idNumber}`, fd);
       toastSuccess(response.message);
+      navigate('/');
     } catch (error) {
       const errorMessage = error.response.data.error;
       toastError(errorMessage);
@@ -89,7 +94,7 @@ export default function CreatePost() {
                 <label htmlFor="contained-button-file">
                     <Input accept="image/*" 	sx={{ display: 'none' }} id="contained-button-file" multiple type="file" name="image" 
                     {...register('image', {required: 'true'})} />
-                    <Button variant="contained" component="span">Modifier l'image du post (optionnel)</Button>
+                    <Button variant="contained" component="span">Modifier l'image du post</Button>
                 </label>
               </Grid>
               <Grid item xs={12} justifyContent="center">
@@ -103,7 +108,7 @@ export default function CreatePost() {
                 fullWidth
                 rows={4}
                 className="desc"
-                placeholder="Nouvelle description du post (optionnel)"
+                placeholder="Nouvelle description du post"
                 {...register('text', {
                     required: 'true',
                   })}
