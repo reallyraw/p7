@@ -39,7 +39,7 @@ export default function CreatePost() {
       }
     }
   fetchPost();
-  }, [])
+  }, [idNumber, userPosted])
 
   
   let navigate = useNavigate();
@@ -64,7 +64,8 @@ export default function CreatePost() {
       navigate('/');
     } catch (error) {
       const errorMessage = error.response.data.error;
-      toastError(errorMessage);
+      toastError(errorMessage);     
+      navigate('/');
     }
   };
 

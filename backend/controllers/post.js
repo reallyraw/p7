@@ -65,6 +65,7 @@ exports.updatePost = (req, res, next) => {
             if (err) res.status(400).json({ e });
             if (!result[0]) res.status(400).json({ message: "Aucun post correspondant" });
             else {
+                if (result[0].post_id_author == req.auth.userId) {
                 if (result[0].post_image != "") {
                     const name = result[0].post_image.split('/images/')[1];
                     fs.unlink(`images/${name}`, () => {
@@ -83,6 +84,9 @@ exports.updatePost = (req, res, next) => {
                     if (err) throw err;
                     res.status(201).json({ message: `Post mis à jour` });
                 });
+            } else {
+                res.status(401).json({error : "Vous n'avez pas l'autorisation."});
+            }
             }
         });
     } else {
