@@ -21,6 +21,7 @@ import {toastError, toastSuccess} from '../constantes/toastConfig'
 require('dayjs/locale/fr');
 
 
+
 export default function HomePost() {
   // dayJS config
   dayjs.locale('fr');
@@ -66,7 +67,7 @@ export default function HomePost() {
       <Loader />
     ) : (
       posts.map((post) => (
-        <Card key={post.post_id} sx={{ minWidth: 9/10, mb: 6 }}>
+        <Card key={post.post_id} sx={{ width: 9/10, mb: 6 }}>
       <CardHeader
         avatar={
           <Avatar src={`${post.user_pp}`}/>
@@ -81,11 +82,11 @@ export default function HomePost() {
       <Link to={`../post?id=${post.post_id}`} >
       <CardMedia
         component="img"
-        height="194"
+        sx={{maxHeight: 500}}
         image={`${post.post_image}`}
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="subtitle1" color="text.secondary">
          {post.post_description}
         </Typography>
       </CardContent>

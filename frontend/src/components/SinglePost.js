@@ -120,7 +120,7 @@ export default function SinglePost() {
     {loading ? (
       <Loader />
     ) : (
-        <Card key={post.post_id} sx={{ minWidth: 9/10 }}>
+        <Card key={post.post_id} sx={{ width: 9/10 }}>
         <CardHeader
           avatar={
             <Avatar src={`${userPosted.user_pp}`}/>
@@ -195,7 +195,7 @@ export default function SinglePost() {
       </React.Fragment>
         <CardMedia
           component="img"
-          height="194"
+          sx={{maxHeight: 500}}
           image={`${post.post_image}`} 
         />
         <CardContent>
