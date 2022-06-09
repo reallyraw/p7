@@ -43,7 +43,7 @@ export default function SinglePost() {
   const idNumber = params.get("id");
 
   const [post, setPost] = useState([]);
-  const [loading, setLoading] = React.useState(true); // handle errors 
+  const [loading, setLoading] = useState(true); // handle errors 
   const [userPosted, setUserPosted] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -64,12 +64,13 @@ export default function SinglePost() {
       }catch(error){
         const errorMessage = error.response.data.error;
         toastError(errorMessage);
+        navigate('/');
       }
     }
   fetchPost();
   // eslint-disable-next-line no-use-before-define
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idNumber, userPosted])
+  }, [])
 
 
   // handle Menu

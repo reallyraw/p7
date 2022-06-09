@@ -23,26 +23,26 @@ export default function CreatePost() {
   const idNumber = params.get("id");
 
   
+  let navigate = useNavigate();
+
+  
   const [post, setPost] = React.useState([]); 
-  const [userPosted, setUserPosted] = React.useState([]);
 
   React.useEffect(()=>{
     const fetchPost = async () => {
       try {
         const data = await crud.findStuff(`post/${idNumber}`);
-        const userinfo = await crud.findStuff(`user/${data[0].post_id_author}`);
         setPost(data[0]);
-        setUserPosted(userinfo[0]);
 
-      }catch(error){
-        console.log(error);
+      }catch(error){       
+        const errorMessage = error.response.data.error;
+        toastError(errorMessage);
+        navigate('/');
       }
     }
   fetchPost();
-  }, [idNumber, userPosted])
-
-  
-  let navigate = useNavigate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   const methods = useForm({
