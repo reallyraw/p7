@@ -32,7 +32,7 @@ export default function AccountMenu() {
     window.location.reload();
   }
 
-  // Affichage infos utilisateur
+  // Display User Info
 
   const [user, setUser] = React.useState([]);
   

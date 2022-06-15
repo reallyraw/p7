@@ -17,7 +17,8 @@ import {useNavigate} from 'react-router-dom';
 
 export default function CreatePost() {
 
-    
+  // Get post or redirect if not found
+
   const postId = window.location.search; // Récupère l'id
   const params = new URLSearchParams(postId);
   const idNumber = params.get("id");
@@ -44,6 +45,8 @@ export default function CreatePost() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  
+  // Update post
 
   const methods = useForm({
     mode: 'onTouched',

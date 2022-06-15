@@ -108,6 +108,7 @@ export default function Register() {
                   name="email"
                   autoComplete="email"
                   {...register('email', {
+                    // eslint-disable-next-line no-useless-escape
                     required: 'true', pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   })}
                 />

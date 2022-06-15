@@ -1,5 +1,3 @@
-// postComment, getComments, deleteComment
-
 const dbcon = require('../config/db');
 
 

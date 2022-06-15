@@ -50,10 +50,9 @@ export default function SinglePost() {
   useEffect(()=>{
     const fetchPost = async () => {
       try {
-        const body = {"postId" : `${idNumber}`}
         const data = await crud.findStuff(`post/${idNumber}`);
         const userinfo = await crud.findStuff(`user/${data[0].post_id_author}`);
-        const like = await crud.postStuff(`like/${userLogged}`, body);
+        const like = await crud.postStuff(`like`);
         setTimeout(() => {
           setIsLiked(like);
           setPost(data[0]);
@@ -90,9 +89,8 @@ export default function SinglePost() {
   const handleLike = async (post, user) => {
       try {
         const postlike = await crud.postStuff(`like/post/${post}`, user);
-        toastSuccess(postlike.message);   
-        const body = {"postId" : `${idNumber}`}
-        const like = await crud.postStuff(`like/${userLogged}`, body);
+        toastSuccess(postlike.message);
+        const like = await crud.postStuff(`like`);
         setIsLiked(like);
       }catch(error){
         const errorMessage = error.response.data.error;
@@ -205,7 +203,8 @@ export default function SinglePost() {
         </CardContent>
         <CardActions sx={{m: 2}}>
         <IconButton aria-label="like" onClick={() => handleLike(`${post.post_id}`, `${userLogged}`)}>
-              <FavoriteIcon sx={isLiked ? ({ color: pink[500], ml:1 }) : ({ml : 1})}
+              <FavoriteIcon 
+              sx={isLiked.includes(post.post_id) && ({ color: pink[500]})}
               />
         </IconButton>
         </CardActions>

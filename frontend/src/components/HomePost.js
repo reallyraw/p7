@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useState, useEffect} from 'react';
 import crud from '../services/crud';
+import { pink } from '@mui/material/colors';
 import CommentIcon from '@mui/icons-material/Comment';
 import Box from '@mui/material/Box';
 import {Link} from 'react-router-dom';
@@ -29,6 +30,7 @@ export default function HomePost() {
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [likesArray, setLikesArray] = useState([]);
 
   useEffect(()=>{
     const fetchPosts = async () => {
@@ -46,6 +48,17 @@ export default function HomePost() {
   fetchPosts();
   }, [])
 
+  const checkIfLiked = async () => {
+    try {
+      const data = await crud.postStuff(`like`);
+      setLikesArray(data);
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  checkIfLiked();
+
 
   // handleLikes
 
@@ -55,6 +68,7 @@ export default function HomePost() {
     try {
       const postlike = await crud.postStuff(`like/post/${post}`, user);
       toastSuccess(postlike.message);
+      checkIfLiked();
     }catch(error){
       const errorMessage = error.response.data.error;
       toastError(errorMessage);
@@ -79,7 +93,7 @@ export default function HomePost() {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
       </Box>
     </React.Fragment>
-      <Link to={`../post?id=${post.post_id}`} >
+      <Link to={`post?id=${post.post_id}`} >
       <CardMedia
         component="img"
         sx={{maxHeight: 500}}
@@ -92,11 +106,15 @@ export default function HomePost() {
       </CardContent>
       </Link>
       <CardActions sx={{m: 2}}>
-      <IconButton aria-label="commentaires">
-            <CommentIcon />
-      </IconButton>
+      <Link to={`post?id=${post.post_id}`} >
+        <IconButton aria-label="commentaires">
+              <CommentIcon />
+        </IconButton>
+      </Link>
       <IconButton onClick={() => handleLike(`${post.post_id}`, `${userLogged}`)} aria-label="like">
-            <FavoriteIcon />
+            <FavoriteIcon
+            sx={likesArray.includes(post.post_id) && ({ color: pink[500]})}
+            />
       </IconButton>
       </CardActions>
     </Card>

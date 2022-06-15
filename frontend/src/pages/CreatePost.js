@@ -17,6 +17,7 @@ import {useNavigate} from 'react-router-dom';
 
 export default function CreatePost() {
 
+
   const methods = useForm({
     mode: 'onTouched',
   });
@@ -28,7 +29,6 @@ export default function CreatePost() {
 
   let navigate = useNavigate();
 
-
   const onSubmit = async (data) => {
     try {
       if (data){    
@@ -39,7 +39,6 @@ export default function CreatePost() {
         if (data.image) {
           fd.append("image", data.image[0], data.image[0].name);
         }    
-        console.log(fd);
         const response = await crud.postStuff('post', fd);
         toastSuccess(response.message);
         navigate('/');
@@ -49,8 +48,7 @@ export default function CreatePost() {
       toastError(errorMessage);
     }
   };
-
-  
+ 
 
   return (
       <Container component="main" maxWidth="xs">
@@ -72,8 +70,8 @@ export default function CreatePost() {
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item justifyContent="center">
-                <label htmlFor="contained-button-file">
-                    <Input accept="image/*" 	sx={{ display: 'none' }} id="contained-button-file" multiple type="file" name="image" 
+                <label htmlFor="contained-button-file"                  >
+                    <Input accept="image/*"	sx={{ display: 'none' }} id="contained-button-file" multiple type="file" name="image" 
                     {...register('image', {required: 'true'})} />
                     <Button variant="contained" component="span">Téléverser une image</Button>
                 </label>

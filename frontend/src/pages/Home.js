@@ -23,7 +23,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-        <HomePost />         {/* Ici mettre une boucle pour chaque post */}
+        <HomePost />
         </Box>
       </Container>
       <Tooltip title="Add" className="bottom-right-btn" placement="bottom-end">
