@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 15 juin 2022 à 18:42
+-- Généré le : jeu. 23 juin 2022 à 15:51
 -- Version du serveur : 8.0.27
 -- Version de PHP : 7.4.26
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`comment_id`),
   KEY `comment_author` (`comment_author`),
   KEY `comments_ibfk_1` (`comment_id_post`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `comments`
@@ -45,7 +45,8 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 INSERT INTO `comments` (`comment_id`, `comment_id_post`, `comment_author`, `comment_date`, `comment_text`) VALUES
 (14, 12, 21, '2022-06-15 19:33:17', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-(15, 12, 22, '2022-06-15 20:21:34', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.');
+(15, 12, 22, '2022-06-15 20:21:34', 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'),
+(17, 14, 26, '2022-06-23 17:17:46', 'Hey ');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `likes` (
   PRIMARY KEY (`like_id`),
   KEY `like_username` (`like_user_id`),
   KEY `likes_ibfk_1` (`like_post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `likes`
@@ -69,7 +70,8 @@ CREATE TABLE IF NOT EXISTS `likes` (
 
 INSERT INTO `likes` (`like_id`, `like_post_id`, `like_user_id`) VALUES
 (36, 12, 21),
-(38, 12, 22);
+(38, 12, 22),
+(39, 13, 23);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `post_likes` int NOT NULL,
   PRIMARY KEY (`post_id`),
   KEY `posts_ibfk_1` (`post_id_author`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `posts`
@@ -95,7 +97,8 @@ CREATE TABLE IF NOT EXISTS `posts` (
 
 INSERT INTO `posts` (`post_id`, `post_id_author`, `post_date_created`, `post_description`, `post_image`, `post_likes`) VALUES
 (12, 21, '2022-06-15 19:31:12', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ', 'http://localhost:5500/images/Que-signifie-Lorem-ipsum.png1655314272950.png', 0),
-(13, 22, '2022-06-15 19:48:58', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non quam lacus suspendisse faucibus interdum posuere lorem. Dis parturient montes nascetur ridiculus mus mauris vitae.', 'http://localhost:5500/images/1d543ab7_z.webp1655315338590.webp', 0);
+(13, 22, '2022-06-15 19:48:58', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non quam lacus suspendisse faucibus interdum posuere lorem. Dis parturient montes nascetur ridiculus mus mauris vitae.', 'http://localhost:5500/images/1d543ab7_z.webp1655315338590.webp', 0),
+(14, 23, '2022-06-20 15:35:23', 'Quis repudiandae eu ', 'http://localhost:5500/images/benzema-arrête.gif1655732123961.gif', 0);
 
 -- --------------------------------------------------------
 
@@ -111,18 +114,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_firstname` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `user_pp` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `user_admin` int NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_email`, `user_name`, `user_firstname`, `password`, `user_pp`) VALUES
-(1, 'antoine.becuwe@gmail.com', 'reallyraw', 'Antoine', '$2b$10$crxVv117O857PMLEB1L.Z.eI5KpQOjzPtPMHeICi/uMuGH64eOEN2', 'http://localhost:5500/images/Patio_vue_du_ciel2.jpg1654692484128.jpg'),
-(21, 'xuko@mailinator.com', 'Suarez', 'Harding', '$2b$10$wHgfbLQjK9TXQiVW2Mv2de9U5O5pAmkkiKtVGKOfI6A3BXWOOv2tS', 'http://localhost:5500/images/image.jpg1655314155511.jpg'),
-(22, 'lodi@mailinator.com', 'Lamb', 'Winifred', '$2b$10$9p60I0UuR7R8QiBKmeW.A.3g9W6NfJJMSJjeQKaBN7YkTLGuQ3azK', 'http://localhost:5500/images/image.jpg1655317270795.jpg');
+INSERT INTO `users` (`user_id`, `user_email`, `user_name`, `user_firstname`, `password`, `user_pp`, `user_admin`) VALUES
+(1, 'antoine.becuwe@gmail.com', 'reallyraw', 'Antoine', '$2b$10$crxVv117O857PMLEB1L.Z.eI5KpQOjzPtPMHeICi/uMuGH64eOEN2', 'http://localhost:5500/images/Patio_vue_du_ciel2.jpg1654692484128.jpg', 0),
+(21, 'xuko@mailinator.com', 'Suarez', 'Harding', '$2b$10$wHgfbLQjK9TXQiVW2Mv2de9U5O5pAmkkiKtVGKOfI6A3BXWOOv2tS', 'http://localhost:5500/images/image.jpg1655314155511.jpg', 0),
+(22, 'lodi@mailinator.com', 'Lamb', 'Winifred', '$2b$10$9p60I0UuR7R8QiBKmeW.A.3g9W6NfJJMSJjeQKaBN7YkTLGuQ3azK', 'http://localhost:5500/images/image.jpg1655317270795.jpg', 0),
+(23, 'qoqonyh@mailinator.com', 'Saunders', 'Desirae', '$2b$10$gCdQBYhUom6Bg6jsawIuOuxSbV8eon7r91jnNOJIGtx8KR1mXhkqa', '', 0),
+(24, 'hituvogab@mailinator.com', 'Stokes', 'Chastity', '$2b$10$HRubL4TnXXVzYfHsnliG3OHNcUA/dIUWEz8luCzIxonmesx/uATX6', '', 0),
+(25, 'dexawak@mailinator.com', 'Snyder', 'Helen', '$2b$10$BDhJCSK7yY2eqlY0A1bzauS.Ey6OQL9zMYS9tUAzybsrvs5NLR29G', '', 0),
+(26, 'huqec@mailinator.com', 'Gallegos', 'Eden', '$2b$10$TA5F1rfLtuTRhBPCp/Wz8uWphnZ5s5mergX8ihoo2SznshYEThCoy', 'http://localhost:5500/images/34049138_461940594238658_6511654871572152320_n.jpg1655997495582.jpg', 0),
+(27, 'admin@groupomania.fr', 'Admin', 'Admin', '$2b$10$0C51IQAkLjeVaIN74kcUDeCv4.1bcZyzGp2cHe4HDD8dEXLhC6RJ2', 'http://localhost:5500/images/groupomania.png', 1);
 
 --
 -- Contraintes pour les tables déchargées
