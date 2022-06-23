@@ -9,6 +9,7 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.put('/profile', auth, multer, userCtrl.updateProfile);
 router.get('/:id', multer, userCtrl.getOneUser);
-router.post('/', userCtrl.checkUserAuth);
+router.post('/admin', auth, userCtrl.checkAdmin);
+
 
 module.exports = router;

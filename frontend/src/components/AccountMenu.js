@@ -39,16 +39,18 @@ export default function AccountMenu() {
   const userId = localStorage.getItem('User');
 
   React.useEffect(()=>{
-    const fetchUser = async () => {
-      try {
-        const userinfo = await crud.findStuff(`user/${userId}`);
-        setUser(userinfo[0]);
-
-      }catch(error){
-        console.log(error);
+    if (userId) {
+      const fetchUser = async () => {
+        try {
+          const userinfo = await crud.findStuff(`user/${userId}`);
+          setUser(userinfo[0]);
+  
+        }catch(error){
+          console.log(error);
+        }
       }
-    }
-  fetchUser();
+    fetchUser();
+    }  
   }, [userId])
   
   return (

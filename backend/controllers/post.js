@@ -38,21 +38,32 @@ exports.deletePost = (req, res, next) => {
         if (err) res.status(400).json({ err });
         if (!result[0]) res.status(400).json({ message: "Aucun post correspondant" });
         else {
+            if (result[0].post_image != "") {
+                const name = result[0].post_image.split('/images/')[1];
+                fs.unlink(`images/${name}`, () => {
+                    if (err) console.log(err);
+                    else console.log('Image supprimée  !');
+                })
+            }
             if (result[0].post_id_author == req.auth.userId) {
-                if (result[0].post_image != "") {
-                    const name = result[0].post_image.split('/images/')[1];
-                    fs.unlink(`images/${name}`, () => {
-                        if (err) console.log(err);
-                        else console.log('Image supprimée  !');
-                    })
-                }
                 var sql2 = `DELETE FROM posts WHERE post_id = ?`;
                 dbcon.query(sql2, [req.params.id], function (err, result) {
                     if (err) throw err;
                     res.status(201).json({ message: `Post supprimé` });
                 });
             } else {
-                res.status(401).json({message : "Vous n'avez pas l'autorisation."});
+                var sql2 = `SELECT * FROM users WHERE user_id = ?`;
+                dbcon.query(sql2, [req.auth.userId], function (err, result) {     
+                    if (result[0].user_admin === 1) {        
+                        var sql3 = `DELETE FROM posts WHERE post_id = ?`;
+                        dbcon.query(sql3, [req.params.id], function (err, result) {
+                            if (err) throw err;
+                            res.status(201).json({ message: `Post supprimé` });
+                        });
+                      } else {    
+                        res.status(401).json({message : "Vous n'avez pas l'autorisation."});
+                      }
+                })
             }
         }
     });
@@ -65,39 +76,46 @@ exports.updatePost = (req, res, next) => {
             if (err) res.status(400).json({ e });
             if (!result[0]) res.status(400).json({ message: "Aucun post correspondant" });
             else {
-                if (result[0].post_id_author == req.auth.userId) {
-                    if (result[0].post_image != "") {
-                        const name = result[0].post_image.split('/images/')[1];
-                        fs.unlink(`images/${name}`, () => {
-                            if (err) console.log(err);
-                            else console.log('Image modifiée !');
-                        })
-                    }
-                    var image = (req.file) ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : "";
-                    const post = {
-                        post_description: req.body.text,
-                        post_image: image,
-                    };
-                    
+                if (result[0].post_image != "") {
+                    const name = result[0].post_image.split('/images/')[1];
+                    fs.unlink(`images/${name}`, () => {
+                        if (err) console.log(err);
+                        else console.log('Image modifiée !');
+                    })
+                }
+                if (result[0].post_image != "") {
+                    const name = result[0].post_image.split('/images/')[1];
+                    fs.unlink(`images/${name}`, () => {
+                        if (err) console.log(err);
+                        else console.log('Image modifiée !');
+                    })
+                }
+                var image = (req.file) ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : "";
+                const post = {
+                    post_description: req.body.text,
+                    post_image: image,
+                };
+                if (result[0].post_id_author == req.auth.userId) {                    
                     var sql2 = `UPDATE posts SET post_description = ?, post_image= ? WHERE post_id = ?`;
                     dbcon.query(sql2, [post.post_description, post.post_image, req.params.id], function (err, result) {
                         if (err) throw err;
                         res.status(201).json({ message: `Post mis à jour` });
                     });
                 } else {
-                    res.status(401).json({error : "Vous n'avez pas l'autorisation."});
+                    var sql2 = `SELECT * FROM users WHERE user_id = ?`;
+                    dbcon.query(sql2, [req.auth.userId], function (err, result) {     
+                        if (result[0].user_admin === 1) {        
+                            var sql3 = `UPDATE posts SET post_description = ?, post_image= ? WHERE post_id = ?`;
+                            dbcon.query(sql3, [post.post_description, post.post_image, req.params.id], function (err, result) {
+                                if (err) throw err;
+                                res.status(201).json({ message: `Post mis à jour` });
+                            });
+                          } else {    
+                            res.status(401).json({message : "Vous n'avez pas l'autorisation."});
+                          }
+                    })
                 }
             }
-        });
-    } else {
-        const text = (req.body.post) ? req.body.post.text : " ";
-        const post = {
-            post_description: text,
-        };
-        let sql2 = `UPDATE posts SET post_description = ? WHERE id = ?`;
-        dbcon.query(sql2, [post.post_description, req.params.id], function (err, result) {
-            if (err) throw err;
-            res.status(201).json({ message: `Post mis à jour` });
         });
     }
 };

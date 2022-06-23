@@ -44,8 +44,9 @@ export default function SinglePost() {
 
   const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(true); // handle errors 
-  const [userPosted, setUserPosted] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
+  const [userPosted, setUserPosted] = useState([]); // check author
+  const [isLiked, setIsLiked] = useState(false); // check if liked
+  const [isAdmin, setIsAdmin] = useState(false); // check if Admin
 
   useEffect(()=>{
     const fetchPost = async () => {
@@ -53,11 +54,13 @@ export default function SinglePost() {
         const data = await crud.findStuff(`post/${idNumber}`);
         const userinfo = await crud.findStuff(`user/${data[0].post_id_author}`);
         const like = await crud.postStuff(`like`);
+        const admin = await crud.postStuff('user/admin');
         setTimeout(() => {
           setIsLiked(like);
           setPost(data[0]);
           setLoading(false);
           setUserPosted(userinfo[0]);
+          setIsAdmin(admin);
         }, 500);
 
       }catch(error){
@@ -123,7 +126,7 @@ export default function SinglePost() {
           avatar={
             <Avatar src={`${userPosted.user_pp}`}/>
           }
-          action={Number(userLogged) === post.post_id_author && (
+          action={(Number(userLogged) === post.post_id_author || isAdmin) && (
             <IconButton aria-label="Plus d'options"
             onClick={handleClick}
             size="small"

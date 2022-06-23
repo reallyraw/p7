@@ -39,8 +39,19 @@ exports.deleteComment = (req, res, next) => {
                     if (err) throw err;
                     res.status(201).json({ message: `Commentaire supprimé` });
                 });
-            } else {
-                res.status(401).json({message : "Vous n'avez pas l'autorisation."});
+            } else {                    
+                var sql2 = `SELECT * FROM users WHERE user_id = ?`;
+                dbcon.query(sql2, [req.auth.userId], function (err, result) {     
+                if (result[0].user_admin === 1) {        
+                    var sql3 = `DELETE FROM comments WHERE comment_id = ?`;
+                    dbcon.query(sql3, [req.params.id], function (err, result) {
+                        if (err) throw err;
+                        res.status(201).json({ message: `Commentaire supprimé` });
+                    });
+                  } else {    
+                    res.status(401).json({message : "Vous n'avez pas l'autorisation."});
+                  }
+            })
             }
         }
     });

@@ -27,15 +27,19 @@ export default function CommentList() {
   const postId = window.location.search; // Récupère l'id
   const params = new URLSearchParams(postId);
   const idNumber = params.get("id");
+  
 
   const [comments, setComments] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false); // check if Admin
+
 
   useEffect(()=>{
     const fetchComments = async () => {
       try {
         const data = await crud.findStuff(`comment/${idNumber}`);
-        setComments(data);
-
+        setComments(data);       
+        const admin = await crud.postStuff('user/admin');       
+        setIsAdmin(admin);
       }catch(error){
         console.log(error);
       }
@@ -87,7 +91,7 @@ export default function CommentList() {
     <>
     {comments.map((comment) => (<List key={comment.comment_id}>
       <ListItem alignItems="flex-start" sx={{mr: 2}}
-        secondaryAction={Number(userId) === comment.comment_author && (
+        secondaryAction={(Number(userId) === comment.comment_author || isAdmin) && (
             <IconButton edge="end" aria-label="delete" sx={{mr: 1}} onClick={() => deleteComment(`${comment.comment_id}`)}>
                       <DeleteIcon />
             </IconButton>

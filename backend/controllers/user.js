@@ -18,7 +18,7 @@ exports.signup = (req, res, next) => {
         user_name: req.body.lastName,
         user_firstname: req.body.firstName,
         password: hash,
-        user_pp: `${req.protocol}://${req.get('host')}/images/default.png`
+        user_pp: ``
       };
       var sql2 = "INSERT INTO users (user_email, user_name, user_firstname, password, user_pp) VALUES (?,?,?,?,?)";
       dbcon.query(sql2, [user.user_email, user.user_name, user.user_firstname, user.password, user.user_pp], function (err, result) {
@@ -95,21 +95,14 @@ exports.getOneUser = (req, res, next) => {
   });
 };
 
-exports.checkUserAuth = (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const decodedToken = jwt.verify(token, process.env.TOKEN);
-    const userId = decodedToken.userId;
-    req.auth = { userId };  
-    
-    if (req.body.userId && req.body.userId !== userId) {
-      res.status(401).json({ error: "Vous ne pouvez pas accéder à cette page, veuillez vous connecter." });
-    } else {
-      res.status(201).json({ message: `Vous êtes déjà connecté(e). Veuillez vous déconnecter avant d'accéder à cette page.` });
-    }
-  } catch (err) {
-    res.status(401).json({
-      error: err.message
-    });
-  }
-}
+exports.checkAdmin = (req, res, next) => {
+  var sql = `SELECT user_admin from users WHERE user_id = ?`;
+  dbcon.query(sql, req.auth.userId, function (err, result) {
+      if (err) res.status(400).json({ err });
+      if (result[0].user_admin === 1) {        
+        res.status(200).json(true);
+      } else {
+        res.status(200).json(false);
+      }
+  });
+};

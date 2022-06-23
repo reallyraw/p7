@@ -50,8 +50,11 @@ export default function HomePost() {
 
   const checkIfLiked = async () => {
     try {
-      const data = await crud.postStuff(`like`);
-      setLikesArray(data);
+      const userId = localStorage.getItem('User');
+      if (userId) {
+        const data = await crud.postStuff(`like`);
+        setLikesArray(data);
+      }
     }catch(error){
       console.log(error);
     }
