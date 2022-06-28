@@ -28,7 +28,7 @@ export default function Home() {
       </Container>
       <Tooltip title="Add" className="bottom-right-btn" placement="bottom-end">
         <Link to='createPost'>
-        <IconButton>
+        <IconButton aria-label="Ajouter un nouveau post">
           <AddCircleIcon sx={{ fontSize: 60 }} color="primary" />
         </IconButton>
         </Link>

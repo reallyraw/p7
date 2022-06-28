@@ -97,7 +97,7 @@ export default function CommentList() {
             </IconButton>
     )}>
         <ListItemAvatar>
-          <Avatar sx={{mt:2}} src={`${comment.user_pp}`}/>
+          <Avatar sx={{mt:2}} src={`${comment.user_pp}`} alt={`Photo de profil de ${comment.user_firstname} ${comment.user_name}`}/>
         </ListItemAvatar>
         <List>
             <ListItemText primary={`${comment.user_firstname} ${comment.user_name}`} secondary={dayjs(comment.comment_date).fromNow()} />

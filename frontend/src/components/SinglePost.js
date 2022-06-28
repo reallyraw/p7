@@ -124,7 +124,7 @@ export default function SinglePost() {
         <Card key={post.post_id} sx={{ width: 9/10 }}>
         <CardHeader
           avatar={
-            <Avatar src={`${userPosted.user_pp}`}/>
+            <Avatar src={`${userPosted.user_pp}`} alt={`Photo de profil de ${post.user_firstname} ${post.user_name}`}/>
           }
           action={(Number(userLogged) === post.post_id_author || isAdmin) && (
             <IconButton aria-label="Plus d'options"
@@ -198,6 +198,7 @@ export default function SinglePost() {
           component="img"
           sx={{maxHeight: 500}}
           image={`${post.post_image}`} 
+          alt={`Image du post n°${post.post_id}`}
         />
         <CardContent>
           <Typography variant="body2" color="text.secondary">

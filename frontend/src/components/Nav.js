@@ -14,7 +14,9 @@ export default function Nav() {
         <Toolbar>
           <Typography sx={{ flexGrow: 1, mb: 1, mt:2 }}>
           <Link to="/" color="white">
-            <img src={logo} alt="Logo" className="logo"/>
+            <h1>
+            <img src={logo} alt="Logo Groupomania" className="logo"/>
+            </h1>
           </Link>
           </Typography>
           <AccountMenu />

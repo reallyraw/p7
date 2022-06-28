@@ -11,7 +11,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useState, useEffect} from 'react';
 import crud from '../services/crud';
 import { pink } from '@mui/material/colors';
-import CommentIcon from '@mui/icons-material/Comment';
 import Box from '@mui/material/Box';
 import {Link} from 'react-router-dom';
 import Loader from './Loader';
@@ -87,7 +86,7 @@ export default function HomePost() {
         <Card key={post.post_id} sx={{ width: 9/10, mb: 6 }}>
       <CardHeader
         avatar={
-          <Avatar src={`${post.user_pp}`}/>
+          <Avatar src={`${post.user_pp}`} alt={`Photo de profil de ${post.user_firstname} ${post.user_name}`}/>
         }
         title={`${post.user_firstname} ${post.user_name}`}
         subheader={dayjs(post.post_date_created).fromNow()}
@@ -101,19 +100,15 @@ export default function HomePost() {
         component="img"
         sx={{maxHeight: 500}}
         image={`${post.post_image}`}
+        alt={`Image du post n°${post.post_id}`}
       />
       <CardContent>
-        <Typography variant="subtitle1" color="text.secondary">
+        <Typography variant="body1" color="text.secondary">
          {post.post_description}
         </Typography>
       </CardContent>
       </Link>
       <CardActions sx={{m: 2}}>
-      <Link to={`post?id=${post.post_id}`} >
-        <IconButton aria-label="commentaires">
-              <CommentIcon />
-        </IconButton>
-      </Link>
       <IconButton onClick={() => handleLike(`${post.post_id}`, `${userLogged}`)} aria-label="like">
             <FavoriteIcon
             sx={likesArray.includes(post.post_id) && ({ color: pink[500]})}

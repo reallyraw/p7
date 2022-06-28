@@ -67,7 +67,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar src={`${user.user_pp}`}/>
+            <Avatar src={`${user.user_pp}`} alt="Profil"/>
           </IconButton>
         </Tooltip>
       </Box>
