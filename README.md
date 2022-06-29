@@ -28,8 +28,8 @@ DB_PORT=''
 DB_USER=''
 DB_PASS=''
 
-PORT=""
-TOKEN=""
+PORT="5500" /!\ GARDER CETTE VALEUR
+TOKEN="" -> Il s'agit du Token pour la génération du JsonWebToken
 ```
 
 (à insérer dans le fichier se trouvant au chemin suivant: './backend/.env')
@@ -56,5 +56,3 @@ Enfin, lancez React:
 ```
 npm start
 ```
-
-### Note: Le projet a été commencé avant le mois de mai et un statut administrateur n'était donc pas requis.

@@ -8,7 +8,7 @@ exports.postComment = (req, res, next) => {
         comment_date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
         comment_text: req.body.comment,
     };
-    var sql = "INSERT INTO comments (comment_id_post, comment_author, comment_date, comment_text) VALUES (?,?,?,?)";
+    const sql = "INSERT INTO comments (comment_id_post, comment_author, comment_date, comment_text) VALUES (?,?,?,?)";
     dbcon.query(sql, [comment.comment_id_post, comment.comment_author, comment.comment_date, comment.comment_text], function (err, result) {
         if (err) throw err;
         res.status(201).json({ message: `Commentaire ajouté !` });
@@ -16,7 +16,7 @@ exports.postComment = (req, res, next) => {
 }
 
 exports.getComments = (req, res, next) => {
-    var sql = `SELECT comment_id, comment_date, comment_text, user_name, user_firstname, user_pp, comment_author
+    const sql = `SELECT comment_id, comment_date, comment_text, user_name, user_firstname, user_pp, comment_author
             FROM comments 
             INNER JOIN users 
             ON comments.comment_author = users.user_id
@@ -28,22 +28,22 @@ exports.getComments = (req, res, next) => {
 };
 
 exports.deleteComment = (req, res, next) => {
-    var sql = `SELECT * FROM comments WHERE comment_id = ?`;
+    const sql = `SELECT * FROM comments WHERE comment_id = ?`;
     dbcon.query(sql, [req.params.id], function (err, result) {
         if (err) res.status(400).json({ err });
         if (!result[0]) res.status(400).json({ message: "Aucun commentaire correspondant" });
         else {
             if (result[0].comment_author == req.auth.userId) {
-                var sql2 = `DELETE FROM comments WHERE comment_id = ?`;
+                const sql2 = `DELETE FROM comments WHERE comment_id = ?`;
                 dbcon.query(sql2, [req.params.id], function (err, result) {
                     if (err) throw err;
                     res.status(201).json({ message: `Commentaire supprimé` });
                 });
             } else {                    
-                var sql2 = `SELECT * FROM users WHERE user_id = ?`;
+                const sql2 = `SELECT * FROM users WHERE user_id = ?`;
                 dbcon.query(sql2, [req.auth.userId], function (err, result) {     
                 if (result[0].user_admin === 1) {        
-                    var sql3 = `DELETE FROM comments WHERE comment_id = ?`;
+                    const sql3 = `DELETE FROM comments WHERE comment_id = ?`;
                     dbcon.query(sql3, [req.params.id], function (err, result) {
                         if (err) throw err;
                         res.status(201).json({ message: `Commentaire supprimé` });

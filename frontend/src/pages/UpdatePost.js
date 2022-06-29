@@ -61,7 +61,9 @@ export default function CreatePost() {
     try {
       const fd = new FormData();
       fd.append('text', data.text);
-      fd.append("image", data.image[0], data.image[0].name);
+      if (data.image[0]) {
+        fd.append("image", data.image[0], data.image[0].name);
+      }
       const response = await crud.updateStuff(`post/${idNumber}`, fd);
       toastSuccess(response.message);
       navigate('/');
@@ -97,7 +99,7 @@ export default function CreatePost() {
               <Grid item justifyContent="center">
                 <label htmlFor="contained-button-file">
                     <Input accept="image/*" 	sx={{ display: 'none' }} id="contained-button-file" multiple type="file" name="image" 
-                    {...register('image', {required: 'true'})} />
+                    {...register('image')} />
                     <Button variant="contained" component="span">Modifier l'image du post</Button>
                 </label>
               </Grid>
@@ -120,7 +122,7 @@ export default function CreatePost() {
               </Grid>
               {errors.text?.type === 'required' && 
                 <Typography variant="overline" display="block" gutterBottom color='primary'>
-                  Veuillez ajouter une description à votre post.
+                  Veuillez ajouter une nouvelle description au post.
                 </Typography>}
             </Grid>
             <Button

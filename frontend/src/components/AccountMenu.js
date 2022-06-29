@@ -10,8 +10,11 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import Delete from '@mui/icons-material/Delete';
 import {Link} from 'react-router-dom';
-import crud from '../services/crud'
+import crud from '../services/crud';
+import {toastError, toastSuccess} from '../constantes/toastConfig'
+
 
 export default function AccountMenu() {
 
@@ -30,6 +33,19 @@ export default function AccountMenu() {
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();
+  }
+
+  // handle Delete Account
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await crud.deleteStuff(`user/delete/${userId}`);
+      handleLogout();
+      toastSuccess(response.message);
+    } catch (error) {
+      const errorMessage = error.response.data.error;
+      toastError(errorMessage);
+    }
   }
 
   // Display User Info
@@ -121,7 +137,13 @@ export default function AccountMenu() {
         </Link>
         </MenuItem>
         <MenuItem
-        
+        onClick={handleDeleteAccount}>
+          <ListItemIcon>
+            <Delete fontSize="small" />
+          </ListItemIcon>
+          Supprimer le profil
+        </MenuItem>
+        <MenuItem
         onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
