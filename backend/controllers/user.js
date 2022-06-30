@@ -26,10 +26,11 @@ exports.signup = (req, res, next) => {
             user_name: req.body.lastName,
             user_firstname: req.body.firstName,
             password: hash,
-            user_pp: ``
+            user_pp: ``,
+            user_admin: 0
           };
-          const sql2 = "INSERT INTO users (user_email, user_name, user_firstname, password, user_pp) VALUES (?,?,?,?,?)";
-          dbcon.query(sql2, [user.user_email, user.user_name, user.user_firstname, user.password, user.user_pp], function (err, result) {
+          const sql2 = "INSERT INTO users (user_email, user_name, user_firstname, password, user_pp, user_admin) VALUES (?,?,?,?,?)";
+          dbcon.query(sql2, [user.user_email, user.user_name, user.user_firstname, user.password, user.user_pp, user.user_admin], function (err, result) {
           if (err) throw err;
           res.status(201).json({ message: `Nouvel utilisateur créé` });
           })
