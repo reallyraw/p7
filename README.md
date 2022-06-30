@@ -34,6 +34,10 @@ TOKEN="" -> Il s'agit du Token pour la génération du JsonWebToken
 
 (à insérer dans le fichier se trouvant au chemin suivant: './backend/.env')
 
+Pour faire fonctionner la base de données je conseille d'utiliser WAMP, de créer une base de données intitulée "groupomania" et d'y importer le fichier SQL.
+Le host, le port l'user et le pass à fournir dans le .env seront vos paramètres PHPMyAdmin accessibles depuis WAMP.
+
+
 Une fois tout installé lancez:
 
 ```
